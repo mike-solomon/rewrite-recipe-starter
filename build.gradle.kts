@@ -29,7 +29,7 @@ java {
     }
 }
 
-group = "org.openrewrite.recipe"
+group = "org.mikesol.recipe"
 description = "Rewrite recipes."
 
 repositories {
@@ -51,6 +51,9 @@ configurations.all {
 val rewriteBomVersion = "latest.integration"
 
 dependencies {
+    implementation("org.jetbrains:annotations:20.1.0")
+    implementation("org.jetbrains:annotations:20.1.0")
+    implementation("org.jetbrains:annotations:20.1.0")
     compileOnly("org.projectlombok:lombok:latest.release")
     compileOnly("com.google.code.findbugs:jsr305:latest.release")
     annotationProcessor("org.projectlombok:lombok:latest.release")
