@@ -15,6 +15,8 @@ plugins {
 
     id("nebula.javadoc-jar") version "18.4.0"
     id("nebula.source-jar") version "18.4.0"
+
+    id("org.openrewrite.rewrite") version("6.1.4")
 }
 
 apply(plugin = "nebula.publish-verification")
@@ -56,7 +58,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:latest.release")
     compileOnly("com.google.code.findbugs:jsr305:latest.release")
     annotationProcessor("org.projectlombok:lombok:latest.release")
-    implementation(platform("org.openrewrite.recipe:rewrite-recipe-bom:${rewriteBomVersion}"))
+    implementation(platform("org.openrewrite.recipe:rewrite-recipe-bom:1.19.4"))
 
     implementation("org.openrewrite:rewrite-java")
     runtimeOnly("org.openrewrite:rewrite-java-17")
