@@ -7,6 +7,7 @@ import lombok.Value;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Option;
 import org.openrewrite.Recipe;
+import org.openrewrite.TreeVisitor;
 import org.openrewrite.internal.lang.NonNull;
 import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.JavaTemplate;
@@ -41,14 +42,14 @@ public class SayHelloRecipe extends Recipe {
     }
 
     @Override
-    protected JavaIsoVisitor<ExecutionContext> getVisitor() {
+    public TreeVisitor<?, ExecutionContext> getVisitor() {
         // getVisitor() should always return a new instance of the visitor to avoid any state leaking between cycles
         return new SayHelloVisitor();
     }
 
     public class SayHelloVisitor extends JavaIsoVisitor<ExecutionContext> {
         private final JavaTemplate helloTemplate =
-                JavaTemplate.builder(this::getCursor, "public String hello() { return \"Hello from #{}!\"; }")
+                JavaTemplate.builder( "public String hello() { return \"Hello from #{}!\"; }")
                         .build();
 
         @Override
@@ -70,12 +71,9 @@ public class SayHelloRecipe extends Recipe {
             }
 
             // Interpolate the fullyQualifiedClassName into the template and use the resulting LST to update the class body
-            classDecl = classDecl.withBody(
-                    classDecl.getBody().withTemplate(
-                            helloTemplate,
-                            classDecl.getBody().getCoordinates().lastStatement(),
-                            fullyQualifiedClassName
-                    ));
+            classDecl = classDecl.withBody( helloTemplate.apply(getCursor(),
+                    classDecl.getBody().getCoordinates().lastStatement(),
+                    fullyQualifiedClassName ));
 
             return classDecl;
         }

@@ -58,7 +58,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:latest.release")
     compileOnly("com.google.code.findbugs:jsr305:latest.release")
     annotationProcessor("org.projectlombok:lombok:latest.release")
-    implementation(platform("org.openrewrite.recipe:rewrite-recipe-bom:1.19.4"))
+    implementation(platform("org.openrewrite.recipe:rewrite-recipe-bom:latest.release"))
 
     implementation("org.openrewrite:rewrite-java")
     runtimeOnly("org.openrewrite:rewrite-java-17")
@@ -72,6 +72,10 @@ dependencies {
 
     testImplementation("org.openrewrite:rewrite-test")
     testImplementation("org.assertj:assertj-core:latest.release")
+}
+
+rewrite {
+    activeRecipe("org.openrewrite.java.upgrade.MigrateToRewrite8")
 }
 
 tasks.named<Test>("test") {
